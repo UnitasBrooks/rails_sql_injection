@@ -1,28 +1,31 @@
 == README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is a simple Ruby on Rails app to practice SQL injection. Raw SQL Search inserts user input directly into a query and is highly susceptible to injection attacks. Sanitized Search is much better, it uses RoR's :sanitize_sql_array to escape not alphanumeric characters. Prepared statement search uses a two step prepared statement built into the PG gem and is by the safest. 
 
-Things you may want to cover:
+The site is currently being hosted on Heroku at: http://enigmatic-retreat-3573.herokuapp.com/users
 
-* Ruby version
+Example injections to try:
+1) x'; insert into users values (6,'sidney',1,1);-- 
+This will create a new user from the search bar
 
-* System dependencies
+2) bobby' and ssn=444;--
+This will return all users whose name is robert and whose SSN is 123123
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+3) x'; select * from users;--
+Returns everything in the users db
 
 
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+
+In order to run this locally you need PSQL, Ruby 1.9.3, Rails 4.0 and a database.yml file in your config/ folder. That database.yml was ommitted for security reasons. Send me a message or e-mail if you need help generating one.
+
+Set up steps
+
+1) Clone the project
+2) Run bundle install 
+3) Add you database.yml file
+	a) No need for a test or production
+	b) Name your development database psql_injection_development
+	c) Add host: localhost under development
+4) Run rake db:migrate
+5) Run rails s to start the server
+6) Point your browser to localhost:3000
