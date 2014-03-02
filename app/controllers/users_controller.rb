@@ -4,17 +4,20 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @records_array = nil
     @users = User.all
-
-    @sql = "Select name, phone_number from users;"
-    @records_array = ActiveRecord::Base.connection.execute(@sql)
   end
 
   def result
     @sql = params[:search]
-    @sql = "Select name, phone_number from users where name=" + "'" + @sql + "';" 
-    @records_array = ActiveRecord::Base.connection.execute(@sql)
+    @warning = ""
+    
+    if @sql.downcase.include? "drop".downcase
+      @warning = "don't drop tables!"
+      @records_array = nil
+    else
+      @sql = "Select name, phone_number from users where name=" + "'" + @sql + "';" 
+      @records_array = ActiveRecord::Base.connection.execute(@sql)
+    end
 
   end
 
