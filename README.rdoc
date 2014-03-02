@@ -9,7 +9,7 @@ Example injections to try:
 This will create a new user from the search bar
 
 2) bobby' and ssn=444;--
-This will return all users whose name is robert and whose SSN is 123123
+This will return all users whose name is bobby and whose SSN is 444
 
 3) x'; select * from users;--
 Returns everything in the users db
