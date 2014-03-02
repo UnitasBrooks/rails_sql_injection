@@ -15,10 +15,34 @@ class UsersController < ApplicationController
       @warning = "don't drop tables!"
       @records_array = nil
     else
-      @sql = "Select name, phone_number from users where name=" + "'" + @sql + "';" 
+      @sql = "select name, phone_number from users where name=" + "'" + @sql + "';" 
       @records_array = ActiveRecord::Base.connection.execute(@sql)
     end
+  end
 
+  def safe_result
+    #@records_array = []
+    @name = params[:safe_search]
+    #ActiveRecord::Base.connection.select_all(
+    #ActiveRecord::Base.send(:sanitize_sql_array, 
+    #["select name, phone_number from users where name=?;", @name])).each do |record|
+    #  @records_array << record
+    #end
+    o = [('a'..'z'), ('A'..'Z')].map { |i| i.to_a }.flatten
+    string = (0...50).map { o[rand(o.length)] }.join  
+    connection = ActiveRecord::Base.connection.raw_connection
+    connection.prepare(string, "select name, phone_number FROM users WHERE name = $1")
+    @records_array = connection.exec_prepared(string, [ @name ])
+  end
+
+  def sanitized_result
+    @records_array = []
+    @name = params[:sanitized_search]
+    ActiveRecord::Base.connection.select_all(
+    ActiveRecord::Base.send(:sanitize_sql_array, 
+    ["select name, phone_number from users where name=?;", @name])).each do |record|
+      @records_array << record
+    end
   end
 
   # GET /users/1

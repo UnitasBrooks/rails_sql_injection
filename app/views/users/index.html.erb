@@ -1,16 +1,31 @@
-<h>
+<h3>
   Search for a phone number by name
-</h>
+</h3>
     
 
-</table>
+</br>
 
+<b> Raw SQL Search </b>
 <%= form_tag('/result') do  %>
   <%= text_field_tag :search, params[:search] %>
   <%= submit_tag "search" %>
 <% end %>
 
+</br>
 
+<b> Prepared Statement Search </b>
+<%= form_tag('/safe_result') do  %>
+  <%= text_field_tag :safe_search, params[:safe_search] %>
+  <%= submit_tag "safe search" %>
+<% end %>
+
+</br>
+
+<b> Sanitized Search </b>
+<%= form_tag('/sanitized_result') do  %>
+  <%= text_field_tag :sanitized_search, params[:sanitized_search] %>
+  <%= submit_tag "sanitized search" %>
+<% end %>
 
 
 <br>

@@ -2,6 +2,14 @@ PsqlInjection::Application.routes.draw do
   resources :users
   get '/result' => 'users#result'
   post '/result' => 'users#result'
+  
+  get '/safe_result' => 'users#safe_result'
+  post '/safe_result' => 'users#safe_result'
+
+  post '/sanitized_result' => 'users#sanitized_result'
+  get '/sanitized_result' => 'users#sanitized_result'
+
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
