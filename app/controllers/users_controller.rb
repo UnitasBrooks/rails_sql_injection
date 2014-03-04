@@ -27,34 +27,30 @@ class UsersController < ApplicationController
   end
 
   def safe_result
-    
     @name = params[:safe_search]
-
     # random prepared statement name
     o = [('a'..'z'), ('A'..'Z')].map { |i| i.to_a }.flatten
     string = (0...50).map { o[rand(o.length)] }.join  
-
+    # connect to your database
     connection = ActiveRecord::Base.connection.raw_connection
+    # prepare that statement, creating a query to be run against  
     connection.prepare(string, "select name, phone_number FROM users WHERE name = $1")
+    # add your name as a variable to your statement
     @records_array = connection.exec_prepared(string, [ @name ])
   end
 
   def sanitized_result
     @sql = params[:sanitized_search]
-    @warning = ""
+
     @records_array = []
 
     # sanitize
     @sql = @sql.gsub("'","''")
     
-    if @sql.downcase.include? "drop".downcase
-      @warning = "don't drop tables!"
-      @records_array = nil
-    else
-      @sql = "select name, phone_number from users where name=" + "'" + @sql + "';" 
-      @records_array = ActiveRecord::Base.connection.execute(@sql)
-    end
-    
+    @sql = "select name, phone_number from users where name=" + "'" + @sql + "'" 
+    @records_array = ActiveRecord::Base.connection.execute(@sql)
+   
+
   end
 
   # GET /users/1
