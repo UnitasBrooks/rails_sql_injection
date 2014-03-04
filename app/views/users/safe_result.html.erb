@@ -1,10 +1,10 @@
 <% i = 0 %>
+<b> Results: </b> 
+</br>
 <% if @records_array != nil %>
 	<% while  i < @records_array.ntuples  do %>
 		<%= @records_array[i] %>
 		<% i += 1 %>
 		</br>
 	<% end %>
-<% else %>
-	No result!
 <% end %>
