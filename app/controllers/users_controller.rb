@@ -10,13 +10,19 @@ class UsersController < ApplicationController
   def result
     @sql = params[:search]
     @warning = ""
+    @echoSQL = ""
     
     if @sql.downcase.include? "drop".downcase
       @warning = "don't drop tables!"
       @records_array = nil
     else
-      @sql = "select name, phone_number from users where name=" + "'" + @sql + "';" 
-      @records_array = ActiveRecord::Base.connection.execute(@sql)
+      @sql = "select name, phone_number from users where name=" + "'" + @sql + "';"
+      begin 
+        @records_array = ActiveRecord::Base.connection.execute(@sql)
+      rescue Exception
+        @echoSQL = @sql
+        @warning = "Incorrect SQL found. Your statement was: "
+      end
     end
   end
 
