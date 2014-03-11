@@ -12,7 +12,7 @@ class UsersController < ApplicationController
     @warning = ""
     @echoSQL = ""
     
-    if @sql.downcase.include? "drop".downcase
+    if @sql.downcase.include? "drop".downcase or @sql.downcase.include? "alter".downcase
       @warning = "don't drop tables!"
       @records_array = nil
     else
