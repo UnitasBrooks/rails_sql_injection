@@ -21,11 +21,19 @@ In order to run this locally you need PSQL, Ruby 1.9.3, Rails 4.0 and a database
 Set up steps
 
 1) Clone the project
+
 2) Run bundle install 
+
 3) Add you database.yml file
+
 	a) No need for a test or production
+	
 	b) Name your development database psql_injection_development
+	
 	c) Add host: localhost under development
+
 4) Run rake db:migrate
+
 5) Run rails s to start the server
+
 6) Point your browser to localhost:3000
